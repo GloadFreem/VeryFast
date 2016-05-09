@@ -1,4 +1,5 @@
 ﻿金指投项目产品版本管理方案
+GitHub地址：https://github.com/GloadFreem/VeryFast.git
 1.文档结构
 project_server:后台工程（java）
 project_android:安卓工程 (java)

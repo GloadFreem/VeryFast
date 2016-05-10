@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.custom.il8n.resources" value="mess"></constant>
+	<constant name="struts.il8n.encoding" value="utf-8"></constant>
+	<package name="jinzht" extends="json-default">
+		<!-- 拦截器 -->
+		<interceptors>
+			<interceptor name="loginInterceptor"
+				class="com.jinzht.web.filter.LoginInterceptor">
+				<param name="hello">Hello world</param>
+			</interceptor>
+			<!-- 拦截器栈 -->
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!--global-results放的位置顺序不对会报错， 全局变量error -->
+		<global-results>
+			<result name="error">/WEB-INF/pages/error.jsp</result>
+			<!-- LoginInterceptor中的Action.LOGIN对应找到name -->
+			<result name="login">/login.jsp</result>
+		</global-results>
+		<action name="verifyCode" class="com.jinzht.mobile.action.SendSMSCodeAction"
+			method="sendVerifyCode">
+			<result name="success" type="json">
+				<param name="includeProperties">status,data.*,msg</param>
+			</result>
+			<result name="error" type="json">
+				<param name="includeProperties">status,data.*,msg</param>
+			</result>
+			<result name="login" type="json">
+				<param name="includeProperties">status,msg</param>
+			</result>
+			<!-- 引用拦截器： 拦截action -->
+			<interceptor-ref name="mystack"></interceptor-ref>
+		</action>
+	</package>
+
+</struts>    
